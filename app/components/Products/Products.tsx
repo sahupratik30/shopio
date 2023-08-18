@@ -5,12 +5,14 @@ import { useState } from "react";
 import ProductCard from "./ProductCard";
 import categories from "@/app/config/product-categories";
 import useFilterProducts from "@/app/hooks/useFilterProducts";
+import ProductSkeleton from "../UI/ProductSkeleton";
 
 const Products = () => {
   const [category, setCategory] = useState("all");
-  const products = useFilterProducts(FilterType.category, category);
-
-  console.log(products);
+  const { filteredProducts: products, loading } = useFilterProducts(
+    FilterType.category,
+    category
+  );
 
   return (
     <section className="my-8 md:my-16">
@@ -28,12 +30,17 @@ const Products = () => {
           </p>
         ))}
       </div>
+
       {/* products container */}
-      <div className="grid gap-4 px-2 sm:gap-6 lg:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      {loading ? (
+        <ProductSkeleton />
+      ) : (
+        <div className="grid gap-4 px-2 sm:gap-6 lg:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      )}
     </section>
   );
 };
