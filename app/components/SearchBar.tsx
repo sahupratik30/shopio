@@ -40,7 +40,11 @@ const SearchBar = () => {
         <div className="absolute z-20 w-full bg-white rounded-md shadow-md top-[120%] max-h-80 overflow-auto">
           {products?.length ? (
             products?.map((product) => (
-              <Link key={product.id} href={`/product/${product.id}`}>
+              <Link
+                key={product.id}
+                href={`/product/${product.id}`}
+                onClick={() => setSearchValue("")}
+              >
                 <div className="flex flex-col p-2 hover:bg-gray-100">
                   <p>{product.title}</p>
                   <p className="text-[10px] text-gray-400 capitalize">

@@ -1,4 +1,5 @@
 import moment from "moment";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -6,13 +7,15 @@ const Footer = () => {
       <div className="container px-4 py-16 mx-auto space-y-8 lg:space-y-16">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-Rye text-primary">
-              SHOPIO
-            </h1>
+            <Link href="/">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-Rye text-primary">
+                SHOPIO
+              </h1>
+            </Link>
 
             <p className="max-w-xs mt-4 text-gray-500 dark:text-gray-400">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse non
-              cupiditate quae nam molestias.
+              We are an e-commerce platform for all your needs. Explore and
+              start shopping today.
             </p>
             <ul className="flex gap-6 mt-8">
               <li>

@@ -11,9 +11,9 @@ const useFetchProducts = () => {
       setLoading(true);
       const res = await fetch(`${BASE_URL}/products`);
       const data = await res.json();
-      setProducts(data);
+      if (data) setProducts(data);
     } catch (error) {
-      console.log("Error fetching products!");
+      console.log("Error fetching products >>", error);
     } finally {
       setLoading(false);
     }

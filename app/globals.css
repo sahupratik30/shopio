@@ -6,6 +6,6 @@
 
 @layer components {
   .btn {
-    @apply px-3 py-1 text-sm text-white transition border rounded-md border-primary sm:px-4 sm:py-2 sm:text-base min-w-max hover:opacity-90;
+    @apply px-3 py-[6px] text-sm text-white transition border rounded-md border-primary sm:px-4 sm:py-2 sm:text-base min-w-max hover:opacity-90;
   }
 }

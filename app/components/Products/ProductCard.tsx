@@ -1,13 +1,14 @@
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Button from "../UI/Button";
 import { ButtonType, Product } from "@/types";
-import useFormatPrice from "@/app/hooks/useFormatPrice";
+import { useRouter } from "next/navigation";
+import Rating from "../Rating";
+import { formatPrice } from "@/helpers";
 
 const ProductCard = ({ product }: { product: Product }) => {
-  const formatPrice = useFormatPrice();
+  const router = useRouter();
   const { id, title, price, category, description, image, rating } = product;
+  const formattedPrice = formatPrice(price, "usd");
 
   return (
     <div className="p-4 bg-white rounded-md">
@@ -15,8 +16,9 @@ const ProductCard = ({ product }: { product: Product }) => {
         <Image
           src={image}
           height={300}
-          width={110}
+          width={90}
           alt={title}
+          style={{ width: "auto", height: "auto" }}
           className="object-contain"
         />
       </div>
@@ -26,34 +28,22 @@ const ProductCard = ({ product }: { product: Product }) => {
       </p>
       <p className="mb-1 text-[10px] text-gray-400 capitalize">{category}</p>
 
-      <p className="flex items-center gap-2 font-semibold text-dark sm:text-lg">
-        {formatPrice(price, "usd")}
-      </p>
+      <p className="font-semibold text-dark sm:text-lg">{formattedPrice}</p>
 
       {/* ratings */}
-      <div className="flex items-center gap-2 mt-2">
-        <div className="flex items-center gap-1">
-          {Array(Math.round(rating?.rate))
-            .fill(null)
-            .map((_, index) => (
-              <FontAwesomeIcon
-                key={index}
-                icon={faStar}
-                className="text-green-700"
-              />
-            ))}
-        </div>
+      <Rating count={rating?.count} rating={rating?.rate} />
 
-        <p className="text-xs text-gray-400">{rating?.count} ratings</p>
-      </div>
-
-      <p className="mt-4 mb-8 text-sm text-justify text-gray-600 line-clamp-3 md:line-clamp-2">
+      <p className="mt-4 mb-8 text-sm text-justify text-gray-600 line-clamp-3 md:line-clamp-2 first-letter:uppercase">
         {description}
       </p>
 
       {/* product actions */}
       <div className="grid grid-cols-2 gap-4">
-        <Button text="View" variant={ButtonType.secondary} onClick={() => {}} />
+        <Button
+          text="View"
+          variant={ButtonType.secondary}
+          onClick={() => router.push(`/product/${product.id}`)}
+        />
         <Button text="Add" variant={ButtonType.primary} onClick={() => {}} />
       </div>
     </div>
