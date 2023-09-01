@@ -38,7 +38,6 @@ const ProductCard = ({ product }: { product: Product }) => {
         <FontAwesomeIcon
           icon={faHeart}
           className="w-5 h-full cursor-pointer sm:w-6 text-primary"
-          title="Wishlist"
         />
       </div>
 
