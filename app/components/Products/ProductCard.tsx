@@ -4,6 +4,9 @@ import { ButtonType, Product } from "@/types";
 import { useRouter } from "next/navigation";
 import Rating from "../Rating";
 import { formatPrice } from "@/helpers";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const router = useRouter();
@@ -28,7 +31,15 @@ const ProductCard = ({ product }: { product: Product }) => {
       </p>
       <p className="mb-1 text-[10px] text-gray-400 capitalize">{category}</p>
 
-      <p className="font-semibold text-dark sm:text-lg">{formattedPrice}</p>
+      <div className="flex items-center justify-between">
+        <p className="font-semibold text-dark sm:text-lg">{formattedPrice}</p>
+
+        <FontAwesomeIcon
+          icon={faHeart}
+          className="w-5 h-full cursor-pointer sm:w-6 text-primary"
+          title="Wishlist"
+        />
+      </div>
 
       {/* ratings */}
       <Rating count={rating?.count} rating={rating?.rate} />
