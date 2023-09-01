@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import "./globals.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import type { Metadata } from "next";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
   title: "Shopio",
@@ -18,7 +19,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="flex flex-col min-h-screen bg-lightGrey font-Poppins">
         <Navbar />
-        <div className="flex-grow">{children}</div>
+        <div className="flex-grow">
+          <Providers>{children}</Providers>
+        </div>
         <Footer />
       </body>
     </html>
