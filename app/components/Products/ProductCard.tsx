@@ -7,6 +7,7 @@ import { formatPrice } from "@/helpers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const router = useRouter();
@@ -50,11 +51,17 @@ const ProductCard = ({ product }: { product: Product }) => {
 
       {/* product actions */}
       <div className="grid grid-cols-2 gap-4">
-        <Button
+        {/* <Button
           text="View"
           variant={ButtonType.secondary}
           onClick={() => router.push(`/product/${product.id}`)}
-        />
+        /> */}
+        <Link
+          href={`/product/${product.id}`}
+          className="text-center btn text-primary"
+        >
+          View
+        </Link>
         <Button text="Add" variant={ButtonType.primary} onClick={() => {}} />
       </div>
     </div>
