@@ -5,8 +5,13 @@ import Image from "next/image";
 import Rating from "../Rating";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import Modal from "../UI/Modal";
+import Button from "../UI/Button";
+import { ButtonType } from "@/types";
 
 const WishlistItem = () => {
+  const [showModal, setshowModal] = useState(false);
+
   return (
     <>
       <div className="flex items-start gap-8">
@@ -32,6 +37,7 @@ const WishlistItem = () => {
             <FontAwesomeIcon
               icon={faHeart}
               className="w-4 h-full cursor-pointer sm:w-5 text-primary"
+              onClick={() => setshowModal(true)}
             />
             {/* price */}
             <p className="font-semibold text-dark sm:text-lg">$109.95</p>
@@ -44,6 +50,29 @@ const WishlistItem = () => {
           <button className="btn w-max text-primary">Move to cart</button>
         </div>
       </div>
+
+      {showModal && (
+        <Modal title="Remove from wishlist" onClose={() => setshowModal(false)}>
+          <p className="mb-6">
+            Do you want to remove this product from wishlist?
+          </p>
+
+          <div className="flex items-center justify-center gap-6">
+            <Button
+              text="No"
+              onClick={() => setshowModal(false)}
+              variant={ButtonType.secondary}
+              className="w-20 min-w-max"
+            />
+            <Button
+              text="Yes"
+              onClick={() => {}}
+              variant={ButtonType.primary}
+              className="w-20 min-w-max"
+            />
+          </div>
+        </Modal>
+      )}
     </>
   );
 };

@@ -2,14 +2,17 @@
 
 import Rating from "@/app/components/Rating";
 import Button from "@/app/components/UI/Button";
+import Modal from "@/app/components/UI/Modal";
 import ProductSkeleton from "@/app/components/UI/ProductSkeleton";
 import useFetchProduct from "@/app/hooks/useFetchProduct";
 import { formatPrice } from "@/helpers";
 import { ButtonType } from "@/types";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 
 const ProductPage = () => {
+  const [showModal, setshowModal] = useState(false);
   const params = useParams();
   const { product, loading } = useFetchProduct(+params?.id);
   const formattedPrice = formatPrice(product?.price, "usd");
@@ -66,12 +69,33 @@ const ProductPage = () => {
             <Button
               text="Add to wishlist"
               variant={ButtonType.secondary}
-              onClick={() => {}}
-              // className="w-max"
+              onClick={() => setshowModal(true)}
             />
           </div>
         </div>
       ) : null}
+
+      {/* Confirm Modal */}
+      {showModal && (
+        <Modal title="Add to wishlist" onClose={() => setshowModal(false)}>
+          <p className="mb-6">Do you want to add this product to wishlist?</p>
+
+          <div className="flex items-center justify-center gap-6">
+            <Button
+              text="No"
+              onClick={() => setshowModal(false)}
+              variant={ButtonType.secondary}
+              className="w-20 min-w-max"
+            />
+            <Button
+              text="Yes"
+              onClick={() => {}}
+              variant={ButtonType.primary}
+              className="w-20 min-w-max"
+            />
+          </div>
+        </Modal>
+      )}
     </>
   );
 };

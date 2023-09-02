@@ -33,4 +33,20 @@
   .btn {
     @apply px-3 py-[6px] text-sm text-white transition border rounded-md border-primary sm:px-4 sm:py-2 sm:text-base min-w-max hover:opacity-90;
   }
+
+  .modal__backdrop {
+    @apply fixed inset-0 z-30 bg-gray-900 opacity-50;
+  }
+
+  .modal {
+    @apply fixed z-40 w-11/12 max-w-lg p-4 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg top-1/2 left-1/2;
+  }
+
+  .modal__title {
+    @apply text-lg font-medium text-center;
+  }
+
+  .modal__body {
+    @apply py-10 text-center text-gray-700;
+  }
 }
