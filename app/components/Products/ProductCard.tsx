@@ -28,9 +28,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <Image
             src={image}
             height={300}
-            width={90}
+            width={100}
             alt={title}
-            style={{ width: "auto", height: "auto" }}
             className="object-contain"
           />
         </div>
