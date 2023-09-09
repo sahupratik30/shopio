@@ -1,5 +1,5 @@
 import Link from "next/link";
-import WishlistItem from "../components/wishlist/WishlistItem";
+import WishlistItem from "../../components/wishlist/WishlistItem";
 
 const WishlistPage = () => {
   let wishlist = ["Item 1", "Item 2"]; // just for demo, will be changed later
@@ -18,6 +18,7 @@ const WishlistPage = () => {
       </div>
     );
   }
+
   return (
     <div className="px-4">
       <div className="max-w-screen-md mx-auto mt-8 mb-24">

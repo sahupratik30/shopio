@@ -1,6 +1,6 @@
 import Link from "next/link";
-import CartItem from "../components/Cart/CartItem";
-import PaymentDetails from "../components/Cart/PaymentDetails";
+import CartItem from "../../components/Cart/CartItem";
+import PaymentDetails from "../../components/Cart/PaymentDetails";
 
 const CartPage = () => {
   let cart = ["Item 1", "Item 2"]; // just for demo, will be changed later
