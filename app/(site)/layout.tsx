@@ -1,10 +1,10 @@
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
-import "./globals.css";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+import "../globals.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import type { Metadata } from "next";
-import Providers from "./providers";
-import Modal from "./components/UI/Modal";
+import Providers from "../providers";
+import Modal from "../components/UI/Modal";
 
 export const metadata: Metadata = {
   title: "Shopio",
