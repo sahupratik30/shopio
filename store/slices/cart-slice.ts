@@ -1,4 +1,4 @@
-import { CartItem, CartState } from "@/types";
+import { CartItem, CartState, Product } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -37,8 +37,12 @@ const cartSlice = createSlice({
       if (state.items[itemIndex].quantity > 1) {
         // if item quantity is greater than 1 then just reduce its quantity
         state.items[itemIndex].quantity--;
+        state.totalQuantity--;
+        state.totalAmount -= state.items[itemIndex].price;
       } else {
         // if item quantity is 1 then remove it from cart
+        state.totalQuantity--;
+        state.totalAmount -= state.items[itemIndex].price;
         state.items.splice(itemIndex, 1);
       }
     },
