@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth";
 import { authConfig } from "@/lib/auth";
 import Button from "./UI/Button";
 import { ButtonType } from "@/types";
+import CartIcon from "./CartIcon";
 
 const Navbar = async () => {
   const session = await getServerSession(authConfig);
@@ -53,9 +54,7 @@ const Navbar = async () => {
               className="w-6 h-full sm:w-7 text-dark"
               title="Cart"
             />
-            <div className="absolute flex items-center justify-center px-1 text-sm text-white rounded-md bg-primary -right-2 -top-3 full w-max">
-              0
-            </div>
+            <CartIcon />
           </Link>
 
           {/* login and logout */}

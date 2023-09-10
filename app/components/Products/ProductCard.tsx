@@ -10,6 +10,8 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import Modal from "../UI/Modal";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/store/slices/cart-slice";
 
 interface ProductCardProps {
   product: Product;
@@ -17,9 +19,17 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const [showModal, setshowModal] = useState(false);
+
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const { id, title, price, category, description, image, rating } = product;
   const formattedPrice = formatPrice(price, "usd");
+
+  // add item to cart
+  const _handleAddToCart = () => {
+    dispatch(addToCart({ ...product, quantity: 1 }));
+  };
 
   return (
     <>
@@ -69,7 +79,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
           >
             View
           </Link>
-          <Button text="Add" variant={ButtonType.primary} onClick={() => {}} />
+          <Button
+            text="Add"
+            variant={ButtonType.primary}
+            onClick={_handleAddToCart}
+          />
         </div>
       </div>
 
