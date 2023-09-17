@@ -6,16 +6,26 @@ import Modal from "@/app/components/UI/Modal";
 import ProductSkeleton from "@/app/components/UI/ProductSkeleton";
 import useFetchProduct from "@/app/hooks/useFetchProduct";
 import { formatPrice } from "@/helpers";
+import { addToCart } from "@/store/slices/cart-slice";
 import { ButtonType } from "@/types";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 const ProductPage = () => {
   const [showModal, setshowModal] = useState(false);
+
   const params = useParams();
+  const dispatch = useDispatch();
   const { product, loading } = useFetchProduct(+params?.id);
+
   const formattedPrice = formatPrice(product?.price, "usd");
+
+  // add item to cart
+  const _handleAddToCart = () => {
+    dispatch(addToCart({ ...product, quantity: 1 }));
+  };
 
   if (loading) {
     return <ProductSkeleton />;
@@ -63,7 +73,7 @@ const ProductPage = () => {
             <Button
               text="Add to cart"
               variant={ButtonType.primary}
-              onClick={() => {}}
+              onClick={_handleAddToCart}
               className="mb-3"
             />
             <Button
