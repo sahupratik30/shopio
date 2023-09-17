@@ -2,9 +2,8 @@ import Image from "next/image";
 import { useState } from "react";
 import Button from "../UI/Button";
 import { ButtonType, Product } from "@/types";
-import { useRouter } from "next/navigation";
 import Rating from "../Rating";
-import { formatPrice } from "@/helpers";
+import { formatPrice, isWishlistItem } from "@/helpers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +11,10 @@ import Link from "next/link";
 import Modal from "../UI/Modal";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/store/slices/cart-slice";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "@/store/slices/wishlist-slice";
 
 interface ProductCardProps {
   product: Product;
@@ -20,11 +23,22 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
   const [showModal, setshowModal] = useState(false);
 
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const { id, title, price, category, description, image, rating } = product;
   const formattedPrice = formatPrice(price, "usd");
+
+  // remove item from wishlist
+  const _handleRemoveFromWishlist = () => {
+    dispatch(removeFromWishlist(id));
+    setshowModal(false);
+  };
+
+  // add item to wishlist
+  const _handleAddToWishlist = () => {
+    dispatch(addToWishlist(product));
+    setshowModal(false);
+  };
 
   // add item to cart
   const _handleAddToCart = () => {
@@ -53,7 +67,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <p className="font-semibold text-dark sm:text-lg">{formattedPrice}</p>
 
           <FontAwesomeIcon
-            icon={faHeart}
+            icon={isWishlistItem(id) ? faHeartSolid : faHeart}
             className="w-5 h-full cursor-pointer sm:w-6 text-primary"
             onClick={() => setshowModal(true)}
           />
@@ -68,17 +82,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
         {/* product actions */}
         <div className="grid grid-cols-2 gap-4">
-          {/* <Button
-          text="View"
-          variant={ButtonType.secondary}
-          onClick={() => router.push(`/product/${product.id}`)}
-        /> */}
           <Link
             href={`/product/${product.id}`}
             className="text-center btn text-primary"
           >
             View
           </Link>
+
           <Button
             text="Add"
             variant={ButtonType.primary}
@@ -89,8 +99,17 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
       {/* Confirm Modal */}
       {showModal && (
-        <Modal title="Add to wishlist" onClose={() => setshowModal(false)}>
-          <p className="mb-6">Do you want to add this product to wishlist?</p>
+        <Modal
+          title={
+            isWishlistItem(id) ? "Remove from wishlist" : "Add to wishlist"
+          }
+          onClose={() => setshowModal(false)}
+        >
+          <p className="mb-6">
+            {isWishlistItem(id)
+              ? "Do you want to remove this product from wishlist?"
+              : "Do you want to add this product to wishlist?"}
+          </p>
 
           <div className="flex items-center justify-center gap-6">
             <Button
@@ -101,7 +120,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
             />
             <Button
               text="Yes"
-              onClick={() => {}}
+              onClick={
+                isWishlistItem(id)
+                  ? _handleRemoveFromWishlist
+                  : _handleAddToWishlist
+              }
               variant={ButtonType.primary}
               className="w-20 min-w-max"
             />
