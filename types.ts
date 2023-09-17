@@ -30,3 +30,7 @@ export type CartState = {
   totalQuantity: number;
   totalAmount: number;
 };
+
+export type WishlistState = {
+  items: Product[];
+};

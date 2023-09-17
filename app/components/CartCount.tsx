@@ -3,7 +3,7 @@
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 
-const CartIcon = () => {
+const CartCount = () => {
   const { totalQuantity } = useSelector((state: RootState) => state.cart);
 
   return (
@@ -13,4 +13,4 @@ const CartIcon = () => {
   );
 };
 
-export default CartIcon;
+export default CartCount;

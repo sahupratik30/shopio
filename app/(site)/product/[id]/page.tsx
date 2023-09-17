@@ -5,8 +5,12 @@ import Button from "@/app/components/UI/Button";
 import Modal from "@/app/components/UI/Modal";
 import ProductSkeleton from "@/app/components/UI/ProductSkeleton";
 import useFetchProduct from "@/app/hooks/useFetchProduct";
-import { formatPrice } from "@/helpers";
+import { formatPrice, isWishlistItem } from "@/helpers";
 import { addToCart } from "@/store/slices/cart-slice";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "@/store/slices/wishlist-slice";
 import { ButtonType } from "@/types";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -21,6 +25,18 @@ const ProductPage = () => {
   const { product, loading } = useFetchProduct(+params?.id);
 
   const formattedPrice = formatPrice(product?.price, "usd");
+
+  // remove item from wishlist
+  const _handleRemoveFromWishlist = () => {
+    dispatch(removeFromWishlist(+params?.id));
+    setshowModal(false);
+  };
+
+  // add item to wishlist
+  const _handleAddToWishlist = () => {
+    dispatch(addToWishlist(product));
+    setshowModal(false);
+  };
 
   // add item to cart
   const _handleAddToCart = () => {
@@ -77,7 +93,11 @@ const ProductPage = () => {
               className="mb-3"
             />
             <Button
-              text="Add to wishlist"
+              text={
+                isWishlistItem(+params?.id)
+                  ? "Remove from wishlist"
+                  : "Add to wishlist"
+              }
               variant={ButtonType.secondary}
               onClick={() => setshowModal(true)}
             />
@@ -86,9 +106,21 @@ const ProductPage = () => {
       ) : null}
 
       {/* Confirm Modal */}
+      {/* Confirm Modal */}
       {showModal && (
-        <Modal title="Add to wishlist" onClose={() => setshowModal(false)}>
-          <p className="mb-6">Do you want to add this product to wishlist?</p>
+        <Modal
+          title={
+            isWishlistItem(+params?.id)
+              ? "Remove from wishlist"
+              : "Add to wishlist"
+          }
+          onClose={() => setshowModal(false)}
+        >
+          <p className="mb-6">
+            {isWishlistItem(+params?.id)
+              ? "Do you want to remove this product from wishlist?"
+              : "Do you want to add this product to wishlist?"}
+          </p>
 
           <div className="flex items-center justify-center gap-6">
             <Button
@@ -99,7 +131,11 @@ const ProductPage = () => {
             />
             <Button
               text="Yes"
-              onClick={() => {}}
+              onClick={
+                isWishlistItem(+params?.id)
+                  ? _handleRemoveFromWishlist
+                  : _handleAddToWishlist
+              }
               variant={ButtonType.primary}
               className="w-20 min-w-max"
             />

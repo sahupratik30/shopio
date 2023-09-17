@@ -7,7 +7,8 @@ import { getServerSession } from "next-auth";
 import { authConfig } from "@/lib/auth";
 import Button from "./UI/Button";
 import { ButtonType } from "@/types";
-import CartIcon from "./CartIcon";
+import CartCount from "./CartCount";
+import WishlistCount from "./WishlistCount";
 
 const Navbar = async () => {
   const session = await getServerSession(authConfig);
@@ -39,12 +40,13 @@ const Navbar = async () => {
           ) : null}
 
           {/* wishlist */}
-          <Link href="/wishlist">
+          <Link href="/wishlist" className="relative">
             <FontAwesomeIcon
               icon={faHeart}
               className="w-6 h-full cursor-pointer sm:w-7 text-primary"
               title="Wishlist"
             />
+            <WishlistCount />
           </Link>
 
           {/* cart */}
@@ -54,7 +56,7 @@ const Navbar = async () => {
               className="w-6 h-full sm:w-7 text-dark"
               title="Cart"
             />
-            <CartIcon />
+            <CartCount />
           </Link>
 
           {/* login and logout */}

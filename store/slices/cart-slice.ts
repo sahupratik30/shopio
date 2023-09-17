@@ -1,4 +1,4 @@
-import { CartItem, CartState, Product } from "@/types";
+import { CartItem, CartState } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -51,4 +51,4 @@ const cartSlice = createSlice({
 
 export const { addToCart, removeFromCart } = cartSlice.actions;
 
-export const cartReducer = cartSlice.reducer;
+export default cartSlice.reducer;
