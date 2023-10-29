@@ -12,7 +12,7 @@ import WishlistCount from "./WishlistCount";
 
 const Navbar = async () => {
   const session = await getServerSession(authConfig);
-  console.log(session);
+
   return (
     <div className="sticky top-0 z-10 p-4 bg-white">
       <div className="container flex items-center justify-between mx-auto">

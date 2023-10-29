@@ -9,9 +9,17 @@ interface Button {
   onClick?: (event: React.MouseEvent) => void;
   className?: string;
   action?: string;
+  disabled?: boolean;
 }
 
-const Button = ({ text, variant, onClick, className, action }: Button) => {
+const Button = ({
+  text,
+  variant,
+  onClick,
+  className,
+  action,
+  disabled,
+}: Button) => {
   const btnClasses =
     variant === ButtonType.primary ? "bg-primary text-white" : "text-primary";
 
@@ -24,6 +32,7 @@ const Button = ({ text, variant, onClick, className, action }: Button) => {
       type="button"
       onClick={action === "logout" ? _handleLogout : onClick}
       className={`btn ${btnClasses} ${className}`}
+      disabled={disabled}
     >
       {text}
     </button>
