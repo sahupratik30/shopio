@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       shipping_address_collection: {
-        allowed_countries: ["US", "CA", "IN"],
+        allowed_countries: ["US", "CA"],
       },
       line_items: transformedItems,
       mode: "payment",
@@ -31,7 +31,14 @@ export async function POST(req: Request) {
       cancel_url: `${process.env.HOST}/cart`,
       metadata: {
         email,
-        images: JSON.stringify(items.map((item: CartItem) => item.image)),
+        products: JSON.stringify(
+          items.map((item: CartItem) => ({
+            title: item.title,
+            image: item.image,
+            price: item.price,
+            quantity: item.quantity,
+          }))
+        ),
       },
     });
 
