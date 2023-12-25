@@ -1,16 +1,27 @@
 import { headers } from "next/headers";
 import * as admin from "firebase-admin";
-import serviceAccount from "../../../permissions.json";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
+const formatPrivateKey = (key: string) => {
+  return key.replace(/\\n/g, "\n");
+};
+
 // initialize firebase app
 const app = !admin.apps.length
   ? admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+      credential: admin.credential.cert({
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        privateKey: formatPrivateKey(
+          process.env.FIREBASE_PRIVATE_KEY as string
+        ),
+      }),
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
     })
   : admin.app();
 
@@ -61,10 +72,3 @@ export async function POST(req: Request) {
     }
   }
 }
-
-export const config = {
-  api: {
-    bodyParser: false,
-    externalResolver: true,
-  },
-};
