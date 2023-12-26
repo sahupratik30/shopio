@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { BASE_URL } from "../config";
-import { Product } from "@/types";
+import { BASE_URL } from "../app/config";
 
 const useFetchProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
 
   const _fetchProducts = async () => {
@@ -11,7 +9,7 @@ const useFetchProducts = () => {
       setLoading(true);
       const res = await fetch(`${BASE_URL}/products`);
       const data = await res.json();
-      if (data) setProducts(data);
+      if (data) localStorage.setItem("products", JSON.stringify(data));
     } catch (error) {
       console.log("Error fetching products >>", error);
     } finally {
@@ -20,10 +18,11 @@ const useFetchProducts = () => {
   };
 
   useEffect(() => {
-    _fetchProducts();
+    const products = JSON.parse(localStorage.getItem("products") as string);
+    if (!products) _fetchProducts();
   }, []);
 
-  return { products, loading };
+  return { loading };
 };
 
 export default useFetchProducts;

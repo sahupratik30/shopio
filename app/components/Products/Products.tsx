@@ -4,14 +4,17 @@ import { FilterType } from "@/types";
 import { useState } from "react";
 import ProductCard from "./ProductCard";
 import categories from "@/app/config/product-categories";
-import useFilterProducts from "@/app/hooks/useFilterProducts";
+import useFilterProducts from "@/hooks/useFilterProducts";
 import ProductCardSkeleton from "../UI/ProductCardSkeleton";
+import useFetchProducts from "@/hooks/useFetchProducts";
 
 const Products = () => {
   const [category, setCategory] = useState("all");
-  const { filteredProducts: products, loading } = useFilterProducts(
+  const { loading } = useFetchProducts();
+  const { filteredProducts } = useFilterProducts(
     FilterType.category,
-    category
+    category,
+    !loading
   );
 
   return (
@@ -36,7 +39,7 @@ const Products = () => {
         <ProductCardSkeleton />
       ) : (
         <div className="grid gap-4 px-2 sm:gap-6 lg:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {products.map((product) => (
+          {filteredProducts?.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>

@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import useFilterProducts from "../hooks/useFilterProducts";
+import useFilterProducts from "../../hooks/useFilterProducts";
 import { FilterType } from "@/types";
 import Link from "next/link";
 
 const SearchBar = () => {
   const [searchValue, setSearchValue] = useState("");
-  const { filteredProducts: products } = useFilterProducts(
+  const { filteredProducts } = useFilterProducts(
     FilterType.search,
     searchValue
   );
@@ -38,8 +38,8 @@ const SearchBar = () => {
       {/* searched products list */}
       {searchValue?.trim()?.length ? (
         <div className="absolute z-20 w-full bg-white rounded-md shadow-md top-[120%] max-h-80 overflow-auto">
-          {products?.length ? (
-            products?.map((product) => (
+          {filteredProducts?.length ? (
+            filteredProducts?.map((product) => (
               <Link
                 key={product.id}
                 href={`/product/${product.id}`}

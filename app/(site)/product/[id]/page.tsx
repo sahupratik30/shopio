@@ -4,7 +4,7 @@ import Rating from "@/app/components/Rating";
 import Button from "@/app/components/UI/Button";
 import Modal from "@/app/components/UI/Modal";
 import ProductSkeleton from "@/app/components/UI/ProductSkeleton";
-import useFetchProduct from "@/app/hooks/useFetchProduct";
+import useFetchProduct from "@/hooks/useFetchProduct";
 import { formatPrice, isWishlistItem } from "@/helpers";
 import { addToCart } from "@/store/slices/cart-slice";
 import {
