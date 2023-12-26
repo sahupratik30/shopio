@@ -14,7 +14,7 @@ const OrderItem = ({ title, quantity, price, image }: OrderItem) => {
         alt={title}
         width={80}
         height={80}
-        className="object-contain"
+        className="object-contain w-auto h-auto"
       />
 
       <div className="flex flex-col items-start gap-1">

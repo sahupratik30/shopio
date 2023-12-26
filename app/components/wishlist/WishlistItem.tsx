@@ -38,11 +38,11 @@ const WishlistItem = ({ item }: { item: Product }) => {
       <div className="flex items-start gap-8">
         <Image
           src={image}
-          width={100}
-          height={200}
-          priority
+          width={95}
+          height={95}
+          priority={true}
           alt={title}
-          className="object-contain"
+          className="object-contain w-auto h-auto"
         />
 
         <div className="flex flex-col">

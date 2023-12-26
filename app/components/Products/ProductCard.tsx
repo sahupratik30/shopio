@@ -51,10 +51,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <div className="flex items-center justify-center h-44">
           <Image
             src={image}
-            height={300}
-            width={100}
+            height={95}
+            width={95}
             alt={title}
-            className="object-contain"
+            className="object-contain w-auto h-auto"
           />
         </div>
 

@@ -53,12 +53,11 @@ const ProductPage = () => {
         <div className="flex flex-col justify-center max-w-screen-md gap-16 p-4 mx-auto my-8 md:flex-row md:items-start md:my-16 md:justify-between mix-blend-multiply">
           <Image
             src={product?.image}
-            width={250}
-            height={500}
+            width={150}
+            height={150}
             alt={product?.title}
             priority
-            style={{ width: "auto", height: "auto" }}
-            className="object-contain max-w-[250px] mx-auto"
+            className="object-contain w-auto h-auto mx-auto"
           />
 
           <div className="flex flex-col">
