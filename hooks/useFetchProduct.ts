@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { BASE_URL } from "../config";
+import { BASE_URL } from "../app/config";
 import { Product } from "@/types";
 
 const useFetchProduct = (productId: number) => {

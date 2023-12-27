@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export enum ButtonType {
   primary = "primary",
   secondary = "secondary",
@@ -33,4 +35,18 @@ export type CartState = {
 
 export type WishlistState = {
   items: Product[];
+};
+
+export type OrderItem = {
+  image: string;
+  price: number;
+  quantity: number;
+  title: string;
+};
+
+export type Order = {
+  id: string;
+  amount: number;
+  products: OrderItem[];
+  timestamp: Timestamp;
 };

@@ -6,6 +6,7 @@ import { CartItem } from "@/types";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import Link from "next/link";
 import { useDispatch } from "react-redux";
 
 enum CartAction {
@@ -33,14 +34,16 @@ const CartItem = ({ item }: { item: CartItem }) => {
 
   return (
     <div className="flex items-start gap-8">
-      <Image
-        src={image}
-        width={100}
-        height={200}
-        priority
-        alt={title}
-        className="object-contain"
-      />
+      <Link href={`/product/${id}`} as={`/product/${id}`}>
+        <Image
+          src={image}
+          width={65}
+          height={65}
+          priority={true}
+          alt={title}
+          className="object-contain w-auto h-auto"
+        />
+      </Link>
 
       <div className="flex flex-col">
         {/* product name and category */}
@@ -53,13 +56,13 @@ const CartItem = ({ item }: { item: CartItem }) => {
         {/* increase/decrease item count */}
         <div className="flex items-center gap-4 my-2">
           <FontAwesomeIcon
-            className="w-4 cursor-pointer"
+            className="w-4 cursor-pointer text-primary"
             icon={faMinus}
             onClick={() => _updateCart(CartAction.remove)}
           />
           <p className="text-lg font-medium select-none">{quantity}</p>
           <FontAwesomeIcon
-            className="w-4 cursor-pointer"
+            className="w-4 cursor-pointer text-primary"
             icon={faPlus}
             onClick={() => _updateCart(CartAction.add)}
           />

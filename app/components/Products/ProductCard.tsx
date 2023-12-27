@@ -8,13 +8,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import Modal from "../UI/Modal";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/store/slices/cart-slice";
 import {
   addToWishlist,
   removeFromWishlist,
 } from "@/store/slices/wishlist-slice";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import ConfirmModal from "../ConfirmModal";
 
 interface ProductCardProps {
   product: Product;
@@ -23,6 +25,8 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
   const [showModal, setshowModal] = useState(false);
 
+  const { data: session } = useSession();
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const { id, title, price, category, description, image, rating } = product;
@@ -36,29 +40,34 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   // add item to wishlist
   const _handleAddToWishlist = () => {
+    if (!session) router.push("/login");
     dispatch(addToWishlist(product));
     setshowModal(false);
   };
 
   // add item to cart
   const _handleAddToCart = () => {
+    if (!session) router.push("/login");
     dispatch(addToCart({ ...product, quantity: 1 }));
   };
 
   return (
     <>
       <div className="p-4 bg-white rounded-md">
-        <div className="flex items-center justify-center h-44">
+        <div className="flex items-center justify-center h-44 mix-blend-multiply">
           <Image
             src={image}
-            height={300}
-            width={100}
+            height={95}
+            width={95}
             alt={title}
-            className="object-contain"
+            className="object-contain w-auto h-auto"
           />
         </div>
 
-        <p className="mt-4 text-sm sm:text-base line-clamp-1" title={title}>
+        <p
+          className="mt-6 text-sm sm:mt-4 sm:text-base line-clamp-1"
+          title={title}
+        >
           {title}
         </p>
         <p className="mb-1 text-[10px] text-gray-400 capitalize">{category}</p>
@@ -98,39 +107,25 @@ const ProductCard = ({ product }: ProductCardProps) => {
       </div>
 
       {/* Confirm Modal */}
-      {showModal && (
-        <Modal
+      {showModal ? (
+        <ConfirmModal
           title={
             isWishlistItem(id) ? "Remove from wishlist" : "Add to wishlist"
           }
-          onClose={() => setshowModal(false)}
-        >
-          <p className="mb-6">
-            {isWishlistItem(id)
+          text={
+            isWishlistItem(id)
               ? "Do you want to remove this product from wishlist?"
-              : "Do you want to add this product to wishlist?"}
-          </p>
-
-          <div className="flex items-center justify-center gap-6">
-            <Button
-              text="No"
-              onClick={() => setshowModal(false)}
-              variant={ButtonType.secondary}
-              className="w-20 min-w-max"
-            />
-            <Button
-              text="Yes"
-              onClick={
-                isWishlistItem(id)
-                  ? _handleRemoveFromWishlist
-                  : _handleAddToWishlist
-              }
-              variant={ButtonType.primary}
-              className="w-20 min-w-max"
-            />
-          </div>
-        </Modal>
-      )}
+              : "Do you want to add this product to wishlist?"
+          }
+          onClose={() => setshowModal(false)}
+          onConfirm={
+            isWishlistItem(id)
+              ? _handleRemoveFromWishlist
+              : _handleAddToWishlist
+          }
+          onCancel={() => setshowModal(false)}
+        />
+      ) : null}
     </>
   );
 };
