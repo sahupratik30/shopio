@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import CartItem from "../../components/Cart/CartItem";
 import PaymentDetails from "../../components/Cart/PaymentDetails";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import Fallback from "@/app/components/UI/Fallback";
 
 const CartPage = () => {
   const { items: cartItems, totalQuantity } = useSelector(
@@ -14,14 +14,11 @@ const CartPage = () => {
   // cart fallback
   if (!cartItems.length) {
     return (
-      <div className="flex flex-col items-center gap-6 mx-auto my-24 w-max">
-        <h1 className="text-xl font-semibold text-gray-500 ">
-          You haven&apos;t added any items yet!
-        </h1>
-        <Link href="/" className="btn bg-primary w-max">
-          Start Shopping
-        </Link>
-      </div>
+      <Fallback
+        text="You haven't added any items yet!"
+        btnText="Start Shopping"
+        redirectUrl="/"
+      />
     );
   }
 
