@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import WishlistItem from "../../components/wishlist/WishlistItem";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import Fallback from "@/app/components/UI/Fallback";
 
 const WishlistPage = () => {
   const { items: wishlistItems } = useSelector(
@@ -13,15 +13,11 @@ const WishlistPage = () => {
   // wishlist fallback
   if (!wishlistItems.length) {
     return (
-      <div className="flex flex-col items-center gap-6 mx-auto my-24 w-max">
-        <h1 className="text-xl font-semibold text-gray-500">
-          No products added to wishlist!
-        </h1>
-
-        <Link href="/" className="btn bg-primary w-max">
-          Explore Products
-        </Link>
-      </div>
+      <Fallback
+        text="No products added to wishlist!"
+        btnText="Explore Products"
+        redirectUrl="/"
+      />
     );
   }
 

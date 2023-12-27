@@ -2,7 +2,6 @@
 
 import Rating from "@/app/components/Rating";
 import Button from "@/app/components/UI/Button";
-import Modal from "@/app/components/UI/Modal";
 import ProductSkeleton from "@/app/components/UI/ProductSkeleton";
 import useFetchProduct from "@/hooks/useFetchProduct";
 import { formatPrice, isWishlistItem } from "@/helpers";
@@ -17,6 +16,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
+import ConfirmModal from "@/app/components/ConfirmModal";
 
 const ProductPage = () => {
   const [showModal, setshowModal] = useState(false);
@@ -110,41 +110,27 @@ const ProductPage = () => {
       ) : null}
 
       {/* Confirm Modal */}
-      {showModal && (
-        <Modal
+      {showModal ? (
+        <ConfirmModal
           title={
             isWishlistItem(+params?.id)
               ? "Remove from wishlist"
               : "Add to wishlist"
           }
-          onClose={() => setshowModal(false)}
-        >
-          <p className="mb-6">
-            {isWishlistItem(+params?.id)
+          text={
+            isWishlistItem(+params?.id)
               ? "Do you want to remove this product from wishlist?"
-              : "Do you want to add this product to wishlist?"}
-          </p>
-
-          <div className="flex items-center justify-center gap-6">
-            <Button
-              text="No"
-              onClick={() => setshowModal(false)}
-              variant={ButtonType.secondary}
-              className="w-20 min-w-max"
-            />
-            <Button
-              text="Yes"
-              onClick={
-                isWishlistItem(+params?.id)
-                  ? _handleRemoveFromWishlist
-                  : _handleAddToWishlist
-              }
-              variant={ButtonType.primary}
-              className="w-20 min-w-max"
-            />
-          </div>
-        </Modal>
-      )}
+              : "Do you want to add this product to wishlist?"
+          }
+          onClose={() => setshowModal(false)}
+          onConfirm={
+            isWishlistItem(+params?.id)
+              ? _handleRemoveFromWishlist
+              : _handleAddToWishlist
+          }
+          onCancel={() => setshowModal(false)}
+        />
+      ) : null}
     </>
   );
 };

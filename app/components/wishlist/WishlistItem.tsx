@@ -5,20 +5,19 @@ import Image from "next/image";
 import Rating from "../Rating";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import Modal from "../UI/Modal";
-import Button from "../UI/Button";
-import { ButtonType, Product } from "@/types";
+import { Product } from "@/types";
 import { formatPrice } from "@/helpers";
 import { useDispatch } from "react-redux";
 import { removeFromWishlist } from "@/store/slices/wishlist-slice";
 import { addToCart } from "@/store/slices/cart-slice";
+import ConfirmModal from "../ConfirmModal";
 
 const WishlistItem = ({ item }: { item: Product }) => {
   const [showModal, setshowModal] = useState(false);
 
   const dispatch = useDispatch();
 
-  const { id, category, description, image, price, rating, title } = item;
+  const { id, category, image, price, rating, title } = item;
   const formattedPrice = formatPrice(price, "usd");
 
   // remove item from wishlist
@@ -75,28 +74,15 @@ const WishlistItem = ({ item }: { item: Product }) => {
         </div>
       </div>
 
-      {showModal && (
-        <Modal title="Remove from wishlist" onClose={() => setshowModal(false)}>
-          <p className="mb-6">
-            Do you want to remove this product from wishlist?
-          </p>
-
-          <div className="flex items-center justify-center gap-6">
-            <Button
-              text="No"
-              onClick={() => setshowModal(false)}
-              variant={ButtonType.secondary}
-              className="w-20 min-w-max"
-            />
-            <Button
-              text="Yes"
-              onClick={_handleRemoveFromWishlist}
-              variant={ButtonType.primary}
-              className="w-20 min-w-max"
-            />
-          </div>
-        </Modal>
-      )}
+      {showModal ? (
+        <ConfirmModal
+          title="Remove from wishlist"
+          text="Do you want to remove this product from wishlist?"
+          onClose={() => setshowModal(false)}
+          onConfirm={_handleRemoveFromWishlist}
+          onCancel={() => setshowModal(false)}
+        />
+      ) : null}
     </>
   );
 };
