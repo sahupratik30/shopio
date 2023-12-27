@@ -6,6 +6,7 @@ import { CartItem } from "@/types";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import Link from "next/link";
 import { useDispatch } from "react-redux";
 
 enum CartAction {
@@ -33,14 +34,16 @@ const CartItem = ({ item }: { item: CartItem }) => {
 
   return (
     <div className="flex items-start gap-8">
-      <Image
-        src={image}
-        width={95}
-        height={95}
-        priority={true}
-        alt={title}
-        className="object-contain w-auto h-auto"
-      />
+      <Link href={`/product/${id}`} as={`/product/${id}`}>
+        <Image
+          src={image}
+          width={65}
+          height={65}
+          priority={true}
+          alt={title}
+          className="object-contain w-auto h-auto"
+        />
+      </Link>
 
       <div className="flex flex-col">
         {/* product name and category */}

@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { removeFromWishlist } from "@/store/slices/wishlist-slice";
 import { addToCart } from "@/store/slices/cart-slice";
 import ConfirmModal from "../ConfirmModal";
+import Link from "next/link";
 
 const WishlistItem = ({ item }: { item: Product }) => {
   const [showModal, setshowModal] = useState(false);
@@ -35,14 +36,16 @@ const WishlistItem = ({ item }: { item: Product }) => {
   return (
     <>
       <div className="flex items-start gap-8">
-        <Image
-          src={image}
-          width={95}
-          height={95}
-          priority={true}
-          alt={title}
-          className="object-contain w-auto h-auto"
-        />
+        <Link href={`/product/${id}`} as={`/product/${id}`}>
+          <Image
+            src={image}
+            width={65}
+            height={65}
+            priority={true}
+            alt={title}
+            className="object-contain w-auto h-auto"
+          />
+        </Link>
 
         <div className="flex flex-col">
           {/* product name and category */}
