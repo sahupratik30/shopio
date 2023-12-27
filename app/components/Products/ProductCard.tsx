@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import Modal from "../UI/Modal";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/store/slices/cart-slice";
 import {
@@ -16,7 +15,8 @@ import {
   removeFromWishlist,
 } from "@/store/slices/wishlist-slice";
 import { useSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import ConfirmModal from "../ConfirmModal";
 
 interface ProductCardProps {
   product: Product;
@@ -104,39 +104,25 @@ const ProductCard = ({ product }: ProductCardProps) => {
       </div>
 
       {/* Confirm Modal */}
-      {showModal && (
-        <Modal
+      {showModal ? (
+        <ConfirmModal
           title={
             isWishlistItem(id) ? "Remove from wishlist" : "Add to wishlist"
           }
-          onClose={() => setshowModal(false)}
-        >
-          <p className="mb-6">
-            {isWishlistItem(id)
+          text={
+            isWishlistItem(id)
               ? "Do you want to remove this product from wishlist?"
-              : "Do you want to add this product to wishlist?"}
-          </p>
-
-          <div className="flex items-center justify-center gap-6">
-            <Button
-              text="No"
-              onClick={() => setshowModal(false)}
-              variant={ButtonType.secondary}
-              className="w-20 min-w-max"
-            />
-            <Button
-              text="Yes"
-              onClick={
-                isWishlistItem(id)
-                  ? _handleRemoveFromWishlist
-                  : _handleAddToWishlist
-              }
-              variant={ButtonType.primary}
-              className="w-20 min-w-max"
-            />
-          </div>
-        </Modal>
-      )}
+              : "Do you want to add this product to wishlist?"
+          }
+          onClose={() => setshowModal(false)}
+          onConfirm={
+            isWishlistItem(id)
+              ? _handleRemoveFromWishlist
+              : _handleAddToWishlist
+          }
+          onCancel={() => setshowModal(false)}
+        />
+      ) : null}
     </>
   );
 };
