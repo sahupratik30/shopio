@@ -15,6 +15,8 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from "@/store/slices/wishlist-slice";
+import { useSession } from "next-auth/react";
+import { redirect, useRouter } from "next/navigation";
 
 interface ProductCardProps {
   product: Product;
@@ -23,6 +25,8 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
   const [showModal, setshowModal] = useState(false);
 
+  const { data: session } = useSession();
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const { id, title, price, category, description, image, rating } = product;
@@ -36,12 +40,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   // add item to wishlist
   const _handleAddToWishlist = () => {
+    if (!session) router.push("/login");
     dispatch(addToWishlist(product));
     setshowModal(false);
   };
 
   // add item to cart
   const _handleAddToCart = () => {
+    if (!session) router.push("/login");
     dispatch(addToCart({ ...product, quantity: 1 }));
   };
 

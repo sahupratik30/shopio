@@ -13,13 +13,16 @@ import {
 } from "@/store/slices/wishlist-slice";
 import { ButtonType } from "@/types";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useSession } from "next-auth/react";
 
 const ProductPage = () => {
   const [showModal, setshowModal] = useState(false);
 
+  const { data: session } = useSession();
+  const router = useRouter();
   const params = useParams();
   const dispatch = useDispatch();
   const { product, loading } = useFetchProduct(+params?.id);
@@ -34,12 +37,14 @@ const ProductPage = () => {
 
   // add item to wishlist
   const _handleAddToWishlist = () => {
+    if (!session) router.push("/login");
     dispatch(addToWishlist(product));
     setshowModal(false);
   };
 
   // add item to cart
   const _handleAddToCart = () => {
+    if (!session) router.push("/login");
     dispatch(addToCart({ ...product, quantity: 1 }));
   };
 
@@ -104,7 +109,6 @@ const ProductPage = () => {
         </div>
       ) : null}
 
-      {/* Confirm Modal */}
       {/* Confirm Modal */}
       {showModal && (
         <Modal
