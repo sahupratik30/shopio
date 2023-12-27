@@ -27,7 +27,7 @@ const Navbar = async () => {
           <SearchBar />
         </div>
 
-        <div className="flex items-center gap-4 sm:gap-8">
+        <div className="flex items-center gap-6 sm:gap-8">
           {/* wishlist */}
           <Link href="/wishlist" className="relative">
             <FontAwesomeIcon

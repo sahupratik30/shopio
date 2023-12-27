@@ -54,7 +54,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <>
       <div className="p-4 bg-white rounded-md">
-        <div className="flex items-center justify-center h-44">
+        <div className="flex items-center justify-center h-44 mix-blend-multiply">
           <Image
             src={image}
             height={95}
@@ -64,7 +64,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
           />
         </div>
 
-        <p className="mt-4 text-sm sm:text-base line-clamp-1" title={title}>
+        <p
+          className="mt-6 text-sm sm:mt-4 sm:text-base line-clamp-1"
+          title={title}
+        >
           {title}
         </p>
         <p className="mb-1 text-[10px] text-gray-400 capitalize">{category}</p>
