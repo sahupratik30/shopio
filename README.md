@@ -80,6 +80,7 @@ yarn build
  - Next.js
  - TypeScript
  - Tailwind CSS
+ - Redux-Toolkit
  - NextAuth
  - Firestore
  - Stripe
